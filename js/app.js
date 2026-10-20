@@ -80,12 +80,14 @@ for (let i = 0; i < films.length; i++) {
 
 const buttons = document.querySelectorAll(".choix__button");
 const film_selection = document.querySelector("#films-selectione");
+const film_seances = document.querySelector("#film-seances")
 
 buttons.forEach((btn) => {
   btn.addEventListener("click", function () {
     btn.classList.replace("bg-slate-50", "bg-cine-red");
     btn.innerText = "selectioné";
 
+    // etape 1 : ajout des films selectioné
     let btnid = Number(btn.id);
 
     const movie = films.find((Element) => Element.id == btnid);
@@ -106,6 +108,46 @@ buttons.forEach((btn) => {
 
     
     film_selection.appendChild(film_card);
+
+    // etape 2 seances 
+
+    const film_horraire = document.createElement("div")
+
+    film_horraire.setAttribute("class","mt-6 flex flex-wrap gap-3")
+    film_horraire.setAttribute("id","seances-container")
+
+    for(let i = 0; i < movie.seances.length; i++){
+      const button_seance = `<button type="button" data-seance-id="${movie.seances[i].id}" class="rounded-xl bg-cine-red px-5 py-3 font-bold text-white shadow-md">${movie.seances[i].horaire}</button>`
+      film_horraire.innerHTML +=button_seance
+    }
+    film_seances.appendChild(film_horraire)
+
+
+    
+
+
+
+
+
+    // places 
+
+    // const zone_place = document.querySelector("#sieges-container")
+    // const siege = document.createElement ("div")
+
+    // siege.setAttribute("id", "sieges-container")
+    // siege.setAttribute("class","mx-auto mt-8 grid max-w-sm grid-cols-[1rem_repeat(6,minmax(1.75rem,2.6rem))] justify-center gap-1.5")
+
+    // for (let i =0 ; i< 5 ;i++){
+    //   let arr = ["A","B","c","D","E"];
+    //   for(let j = 0; i< 6 ; i++){
+    //     const place_button = `<button class="aspect-square rounded-lg bg-slate-400 text-xs font-bold text-white opacity-50" disabled>${arr[i] (j+1)}</button>`;
+    //     siege.innerHTML += place_button
+    //     console.log(siege)
+    //   }
+    //   zone_place.appendChild(siege)
+    // }
+
+    //Récapitulatif
   });
 });
 
