@@ -43,14 +43,15 @@ const film__container = document.getElementById("films-container");
 // ÉCRIVEZ VOTRE CODE ICI :
 
 let duration = "";
-for (let i = 0; i < films.length; i++) {
-  function time(movie) {
-    let H = parseInt(movie.duree / 60);
-    let min = movie.duree % 60;
-    duration = `${H} H ${min} min`;
-    return duration;
-  }
 
+function time(movie) {
+  let H = parseInt(movie.duree / 60);
+  let min = movie.duree % 60;
+  duration = `${H} H ${min} min`;
+  return duration;
+}
+
+for (let i = 0; i < films.length; i++) {
   const article = document.createElement("article");
   article.setAttribute(
     "class",
@@ -61,7 +62,6 @@ for (let i = 0; i < films.length; i++) {
   const div1 = `<div class="relative"><img src="${films[i].affiche}" alt="Affiche du ${films[i].titre}" class="aspect-[2/3] w-full object-cover"><span class="absolute bottom-3 right-3 rounded-full bg-white/95 px-3 py-1 text-xs font-extrabold shadow-lg">${films[i].prix} DH</span></div>`;
   const div2 = `<div class="p-4"><p class="text-xs font-bold uppercase tracking-wider text-cine-red">${films[i].genre}</p><h3 class="mt-1 text-lg font-black">${films[i].titre}</h3><p class="mt-2 text-sm text-slate-500">${time(films[i])}</p><button type="button" class="mt-4 w-full rounded-xl border border-slate-300 bg-slate-50 px-4 py-3 font-extrabold text-slate-700 choix__button" id="${films[i].id}">Choisir ce film</button></div>`;
   article.innerHTML = div1 + div2;
-  console.log(film__container);
 
   film__container.appendChild(article);
 }
@@ -79,13 +79,33 @@ for (let i = 0; i < films.length; i++) {
 // ÉCRIVEZ VOTRE CODE ICI :
 
 const buttons = document.querySelectorAll(".choix__button");
+const film_selection = document.querySelector("#films-selectione");
+
 buttons.forEach((btn) => {
   btn.addEventListener("click", function () {
     btn.classList.replace("bg-slate-50", "bg-cine-red");
-    btn.innerText =  "selectioné";
+    btn.innerText = "selectioné";
+
+    let btnid = Number(btn.id);
+
+    const movie = films.find((Element) => Element.id == btnid);
+
+    const film_card = document.createElement("div");
+
+    film_card.setAttribute(
+      "class",
+      "mt-6 grid gap-5 rounded-2xl bg-slate-50 p-5 sm:grid-cols-[100px_1fr]",
+    );
+
+    film_card.setAttribute("id", "film-details");
+
+    const film_card_affiche = `<img src="${movie.affiche}" alt="${movie.titre}" class="aspect-[2/3] w-24 rounded-xl object-cover shadow-md">`;
+    const film_card_details = `<div><div class="flex flex-wrap items-center gap-2"><h3 class="text-xl font-black">${movie.titre}</h3><span class="rounded-full bg-red-100 px-3 py-1 text-xs font-bold text-red-700">${movie.prix} DH</span></div><p class="mt-2 text-sm font-semibold text-slate-500">${movie.genre} · ${time(movie)}</p><p class="mt-3 leading-7 text-slate-600">${movie.description}</p></div>`;
+
+    film_card.innerHTML = film_card_affiche + film_card_details;
 
     
-
+    film_selection.appendChild(film_card);
   });
 });
 
