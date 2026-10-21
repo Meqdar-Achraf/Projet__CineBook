@@ -80,56 +80,80 @@ for (let i = 0; i < films.length; i++) {
 
 const buttons = document.querySelectorAll(".choix__button");
 const film_selection = document.querySelector("#films-selectione");
-const film_seances = document.querySelector("#film-seances")
+const film_seances = document.querySelector("#film-seances");
 
 buttons.forEach((btn) => {
+  let filmisselected = false;
   btn.addEventListener("click", function () {
+    // filmisselected = !filmisselected;
+    // if (filmisselected) {
     btn.classList.replace("bg-slate-50", "bg-cine-red");
     btn.innerText = "selectioné";
 
     // etape 1 : ajout des films selectioné
     let btnid = Number(btn.id);
-
     const movie = films.find((Element) => Element.id == btnid);
-
-    const film_card = document.createElement("div");
-
-    film_card.setAttribute(
-      "class",
-      "mt-6 grid gap-5 rounded-2xl bg-slate-50 p-5 sm:grid-cols-[100px_1fr]",
+    const supression_film = document.querySelector(
+      `[card-id="card-${movie.id}"]`,
     );
-
-    film_card.setAttribute("id", "film-details");
-
-    const film_card_affiche = `<img src="${movie.affiche}" alt="${movie.titre}" class="aspect-[2/3] w-24 rounded-xl object-cover shadow-md">`;
-    const film_card_details = `<div><div class="flex flex-wrap items-center gap-2"><h3 class="text-xl font-black">${movie.titre}</h3><span class="rounded-full bg-red-100 px-3 py-1 text-xs font-bold text-red-700">${movie.prix} DH</span></div><p class="mt-2 text-sm font-semibold text-slate-500">${movie.genre} · ${time(movie)}</p><p class="mt-3 leading-7 text-slate-600">${movie.description}</p></div>`;
-
-    film_card.innerHTML = film_card_affiche + film_card_details;
-
+    const supression_horraire = document.querySelector(`[horraire-id="horraire-${movie.id}"]`)
     
-    film_selection.appendChild(film_card);
+    if (supression_film) {
 
-    // etape 2 seances 
+      btn.classList.replace("bg-cine-red", "bg-slate-50");
+      btn.innerText = "Choisir ce film";
+      supression_film.remove();
+      supression_horraire.remove()
+    } else {
+      const film_card = document.createElement("div");
 
-    const film_horraire = document.createElement("div")
+      film_card.setAttribute(
+        "class",
+        "mt-6 grid gap-5 rounded-2xl bg-slate-50 p-5 sm:grid-cols-[100px_1fr]",
+      );
 
-    film_horraire.setAttribute("class","mt-6 flex flex-wrap gap-3")
-    film_horraire.setAttribute("id","seances-container")
+      film_card.setAttribute("id", "film-details");
+      film_card.setAttribute("card-id", `card-${movie.id}`);
 
-    for(let i = 0; i < movie.seances.length; i++){
-      const button_seance = `<button type="button" data-seance-id="${movie.seances[i].id}" class="rounded-xl bg-cine-red px-5 py-3 font-bold text-white shadow-md">${movie.seances[i].horaire}</button>`
-      film_horraire.innerHTML +=button_seance
+      const film_card_affiche = `<img src="${movie.affiche}" alt="${movie.titre}" class="aspect-[2/3] w-24 rounded-xl object-cover shadow-md">`;
+      const film_card_details = `<div><div class="flex flex-wrap items-center gap-2"><h3 class="text-xl font-black">${movie.titre}</h3><span class="rounded-full bg-red-100 px-3 py-1 text-xs font-bold text-red-700">${movie.prix} DH</span></div><p class="mt-2 text-sm font-semibold text-slate-500">${movie.genre} · ${time(movie)}</p><p class="mt-3 leading-7 text-slate-600">${movie.description}</p></div>`;
+
+      film_card.innerHTML = film_card_affiche + film_card_details;
+
+      film_selection.appendChild(film_card);
+
+      // etape 2 seances
+
+      const film_horraire = document.createElement("div");
+
+      film_horraire.setAttribute("class", "mt-6 flex flex-wrap gap-3");
+      film_horraire.setAttribute("id", "seances-container");
+      film_horraire.setAttribute("horraire-id", `horraire-${movie.id}`)
+
+      for (let i = 0; i < movie.seances.length; i++) {
+        const button_seance = `<button type="button" data-seance-id="${movie.seances[i].id}" class="rounded-xl bg-slate-50 border border-slate-300 px-5 py-3 font-bold text-slate-700 shadow-md">${movie.seances[i].horaire}</button>`;
+        film_horraire.innerHTML += button_seance;
+      }
+      film_seances.appendChild(film_horraire);
+
+      const allseancebtn = film_seances.querySelectorAll('[type="button"]');
+
+      allseancebtn.forEach((Elementbutton) => {
+        let selected = false;
+        Elementbutton.addEventListener("click", function () {
+          selected = !selected;
+          if (selected) {
+            Elementbutton.classList.replace("bg-slate-50", "bg-cine-red");
+            Elementbutton.classList.replace("text-slate-700", "text-white");
+          } else {
+            Elementbutton.classList.replace("bg-cine-red", "bg-slate-50");
+            Elementbutton.classList.replace("text-white", "text-slate-700");
+          }
+        });
+      });
     }
-    film_seances.appendChild(film_horraire)
 
-
-    
-
-
-
-
-
-    // places 
+    // places
 
     // const zone_place = document.querySelector("#sieges-container")
     // const siege = document.createElement ("div")
@@ -148,6 +172,9 @@ buttons.forEach((btn) => {
     // }
 
     //Récapitulatif
+    // }else{
+
+    // }
   });
 });
 
