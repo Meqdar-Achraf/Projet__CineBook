@@ -50,21 +50,24 @@ function time(movie) {
   duration = `${H} H ${min} min`;
   return duration;
 }
+function affichefilm(data) {
+  for (let i = 0; i < data.length; i++) {
+    const article = document.createElement("article");
+    article.setAttribute(
+      "class",
+      "overflow-hidden rounded-2xl border border-slate-200 bg-white shadow-lg",
+    );
+    article.setAttribute("data-film-id", `${i + 1}`);
 
-for (let i = 0; i < films.length; i++) {
-  const article = document.createElement("article");
-  article.setAttribute(
-    "class",
-    "overflow-hidden rounded-2xl border border-slate-200 bg-white shadow-lg",
-  );
-  article.setAttribute("data-film-id", `${i + 1}`);
+    const div1 = `<div class="relative"><img src="${data[i].affiche}" alt="Affiche du ${data[i].titre}" class="aspect-[2/3] w-full object-cover"><span class="absolute bottom-3 right-3 rounded-full bg-white/95 px-3 py-1 text-xs font-extrabold shadow-lg">${data[i].prix} DH</span></div>`;
+    const div2 = `<div class="p-4"><p class="text-xs font-bold uppercase tracking-wider text-cine-red">${data[i].genre}</p><h3 class="mt-1 text-lg font-black">${data[i].titre}</h3><p class="mt-2 text-sm text-slate-500">${time(data[i])}</p><button type="button" class="mt-4 w-full rounded-xl border border-slate-300 bg-slate-50 px-4 py-3 font-extrabold text-slate-700 choix__button isnotselected" id="${data[i].id}">Choisir ce film</button></div>`;
+    article.innerHTML = div1 + div2;
 
-  const div1 = `<div class="relative"><img src="${films[i].affiche}" alt="Affiche du ${films[i].titre}" class="aspect-[2/3] w-full object-cover"><span class="absolute bottom-3 right-3 rounded-full bg-white/95 px-3 py-1 text-xs font-extrabold shadow-lg">${films[i].prix} DH</span></div>`;
-  const div2 = `<div class="p-4"><p class="text-xs font-bold uppercase tracking-wider text-cine-red">${films[i].genre}</p><h3 class="mt-1 text-lg font-black">${films[i].titre}</h3><p class="mt-2 text-sm text-slate-500">${time(films[i])}</p><button type="button" class="mt-4 w-full rounded-xl border border-slate-300 bg-slate-50 px-4 py-3 font-extrabold text-slate-700 choix__button" id="${films[i].id}">Choisir ce film</button></div>`;
-  article.innerHTML = div1 + div2;
-
-  film__container.appendChild(article);
+    film__container.appendChild(article);
+  }
 }
+
+affichefilm(films);
 
 // ==================================================
 // US02 - SÉLECTIONNER UN FILM
@@ -79,104 +82,52 @@ for (let i = 0; i < films.length; i++) {
 // ÉCRIVEZ VOTRE CODE ICI :
 
 const buttons = document.querySelectorAll(".choix__button");
-const film_selection = document.querySelector("#films-selectione");
+const film_selection = document.getElementById("films-selectione");
 const film_seances = document.querySelector("#film-seances");
 
-buttons.forEach((btn) => {
-  let filmisselected = false;
-  btn.addEventListener("click", function () {
-    // filmisselected = !filmisselected;
-    // if (filmisselected) {
-    btn.classList.replace("bg-slate-50", "bg-cine-red");
-    btn.innerText = "selectioné";
-
-    // etape 1 : ajout des films selectioné
-    let btnid = Number(btn.id);
-    const movie = films.find((Element) => Element.id == btnid);
-    const supression_film = document.querySelector(
-      `[card-id="card-${movie.id}"]`,
-    );
-    const supression_horraire = document.querySelector(`[horraire-id="horraire-${movie.id}"]`)
-    
-    if (supression_film) {
-
-      btn.classList.replace("bg-cine-red", "bg-slate-50");
-      btn.innerText = "Choisir ce film";
-      supression_film.remove();
-      supression_horraire.remove()
-    } else {
-      const film_card = document.createElement("div");
-
-      film_card.setAttribute(
-        "class",
-        "mt-6 grid gap-5 rounded-2xl bg-slate-50 p-5 sm:grid-cols-[100px_1fr]",
-      );
-
-      film_card.setAttribute("id", "film-details");
-      film_card.setAttribute("card-id", `card-${movie.id}`);
-
-      const film_card_affiche = `<img src="${movie.affiche}" alt="${movie.titre}" class="aspect-[2/3] w-24 rounded-xl object-cover shadow-md">`;
-      const film_card_details = `<div><div class="flex flex-wrap items-center gap-2"><h3 class="text-xl font-black">${movie.titre}</h3><span class="rounded-full bg-red-100 px-3 py-1 text-xs font-bold text-red-700">${movie.prix} DH</span></div><p class="mt-2 text-sm font-semibold text-slate-500">${movie.genre} · ${time(movie)}</p><p class="mt-3 leading-7 text-slate-600">${movie.description}</p></div>`;
-
-      film_card.innerHTML = film_card_affiche + film_card_details;
-
-      film_selection.appendChild(film_card);
-
-      // etape 2 seances
-
-      const film_horraire = document.createElement("div");
-
-      film_horraire.setAttribute("class", "mt-6 flex flex-wrap gap-3");
-      film_horraire.setAttribute("id", "seances-container");
-      film_horraire.setAttribute("horraire-id", `horraire-${movie.id}`)
-
-      for (let i = 0; i < movie.seances.length; i++) {
-        const button_seance = `<button type="button" data-seance-id="${movie.seances[i].id}" class="rounded-xl bg-slate-50 border border-slate-300 px-5 py-3 font-bold text-slate-700 shadow-md">${movie.seances[i].horaire}</button>`;
-        film_horraire.innerHTML += button_seance;
-      }
-      film_seances.appendChild(film_horraire);
-
-      const allseancebtn = film_seances.querySelectorAll('[type="button"]');
-
-      allseancebtn.forEach((Elementbutton) => {
-        let selected = false;
-        Elementbutton.addEventListener("click", function () {
-          selected = !selected;
-          if (selected) {
-            Elementbutton.classList.replace("bg-slate-50", "bg-cine-red");
-            Elementbutton.classList.replace("text-slate-700", "text-white");
-          } else {
-            Elementbutton.classList.replace("bg-cine-red", "bg-slate-50");
-            Elementbutton.classList.replace("text-white", "text-slate-700");
-          }
-        });
+function selectfilm(buttonselections) {
+  buttonselections.forEach((btn) => {
+    btn.addEventListener("click", function () {
+      buttonselections.forEach((btnelement) => {
+        btnelement.classList.replace("bg-cine-red", "bg-slate-50");
+        btnelement.classList.replace("text-white", "text-slate-700");
+        btnelement.classList.replace("isselected", "isnotselected");
+        btnelement.innerText = "choisir ce film";
       });
-    }
 
-    // places
-
-    // const zone_place = document.querySelector("#sieges-container")
-    // const siege = document.createElement ("div")
-
-    // siege.setAttribute("id", "sieges-container")
-    // siege.setAttribute("class","mx-auto mt-8 grid max-w-sm grid-cols-[1rem_repeat(6,minmax(1.75rem,2.6rem))] justify-center gap-1.5")
-
-    // for (let i =0 ; i< 5 ;i++){
-    //   let arr = ["A","B","c","D","E"];
-    //   for(let j = 0; i< 6 ; i++){
-    //     const place_button = `<button class="aspect-square rounded-lg bg-slate-400 text-xs font-bold text-white opacity-50" disabled>${arr[i] (j+1)}</button>`;
-    //     siege.innerHTML += place_button
-    //     console.log(siege)
-    //   }
-    //   zone_place.appendChild(siege)
-    // }
-
-    //Récapitulatif
-    // }else{
-
-    // }
+      btn.classList.replace("bg-slate-50", "bg-cine-red");
+      btn.classList.replace("text-slate-700", "text-white");
+      btn.classList.replace("isnotselected", "isselected");
+      btn.innerText = "selectioné";
+      creatfilmresevation();
+      const reservedfilm = creatfilmresevation();
+      affichageseance(reservedfilm);
+      seanceselection();
+    });
   });
-});
+}
+
+function creatfilmresevation() {
+  const clickedbtn = document.querySelector(".isselected");
+  const movie = films.find((Element) => Element.id == clickedbtn.id);
+  document.querySelector("#film-details")?.remove();
+  const film_card = document.createElement("div");
+  film_card.setAttribute(
+    "class",
+    "mt-6 grid gap-5 rounded-2xl bg-slate-50 p-5 sm:grid-cols-[100px_1fr]",
+  );
+  film_card.setAttribute("id", "film-details");
+  film_card.setAttribute("card-id", `card-${movie.id}`);
+
+  const film_card_affiche = `<img src="${movie.affiche}" alt="${movie.titre}" class="aspect-[2/3] w-24 rounded-xl object-cover shadow-md">`;
+  const film_card_details = `<div><div class="flex flex-wrap items-center gap-2"><h3 class="text-xl font-black">${movie.titre}</h3><span class="rounded-full bg-red-100 px-3 py-1 text-xs font-bold text-red-700">${movie.prix} DH</span></div><p class="mt-2 text-sm font-semibold text-slate-500">${movie.genre} · ${time(movie)}</p><p class="mt-3 leading-7 text-slate-600">${movie.description}</p></div>`;
+
+  film_card.innerHTML = film_card_affiche + film_card_details;
+  film_selection.appendChild(film_card);
+  return movie;
+}
+
+selectfilm(buttons);
 
 // ==================================================
 // US03 - AFFICHER LES SÉANCES
@@ -188,6 +139,19 @@ buttons.forEach((btn) => {
 // MODÈLE : les trois boutons statiques de #seances-container montrent le HTML attendu.
 // ÉCRIVEZ VOTRE CODE ICI :
 
+function affichageseance(filmrsv) {
+  document.querySelector("#seances-container")?.remove();
+
+  const film_horraire = document.createElement("div");
+  film_horraire.setAttribute("class", "mt-6 flex flex-wrap gap-3");
+  film_horraire.setAttribute("id", "seances-container");
+  film_horraire.setAttribute("horraire-id", `horraire-${filmrsv.id}`);
+  for (let i = 0; i < filmrsv.seances.length; i++) {
+    const button_seance = `<button type="button" movieid=${filmrsv} dataseanceid="${filmrsv.seances[i].id}" class="rounded-xl bg-slate-50 border border-slate-300 px-5 py-3 font-bold text-slate-700 shadow-md seance-button isnotactive">${filmrsv.seances[i].horaire}</button>`;
+    film_horraire.innerHTML += button_seance;
+  }
+  film_seances.appendChild(film_horraire);
+}
 // ==================================================
 // US04 - SÉLECTIONNER UNE SÉANCE
 // ==================================================
@@ -196,6 +160,26 @@ buttons.forEach((btn) => {
 // QUESTIONS : Faut-il autoriser une séance qui n'appartient pas au film choisi ?
 // TODO : retrouver la séance, modifier l'état et réinitialiser les sièges choisis.
 // ÉCRIVEZ VOTRE CODE ICI :
+function seanceselection() {
+  const seancebuttons = document.querySelectorAll(".seance-button");
+  const arr_btnactive = [];
+
+  seancebuttons.forEach((Elementbutton) => {
+    // let selected = false;
+
+    Elementbutton.addEventListener("click", function (e) {
+      seancebuttons.forEach((btnelement) => {
+        btnelement.classList.replace("bg-cine-red", "bg-slate-50");
+        btnelement.classList.replace("text-white", "text-slate-700");
+        btnelement.classList.replace("isactive", "isnotactive");
+      });
+
+      Elementbutton.classList.replace("bg-slate-50", "bg-cine-red");
+      Elementbutton.classList.replace("text-slate-700", "text-white");
+      Elementbutton.classList.replace("isnotactive", "isactive");
+    });
+  });
+}
 
 // ==================================================
 // US05 - AFFICHER LES 30 SIÈGES
