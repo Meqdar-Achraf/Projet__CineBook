@@ -193,7 +193,7 @@ function seanceselection() {
 // ÉCRIVEZ VOTRE CODE ICI :
 const columns = ["A", "B", "C", "D", "E"];
 const siege = document.getElementById("sieges-container");
-
+let nombreplaces = 0;
 function affichagesiege() {
   const buttonseanceactive = document.querySelector(".isactive");
   const horaireselecte = creatfilmresevationcard().seances.find(
@@ -216,28 +216,21 @@ function affichagesiege() {
       if (horaireselecte.siegesOccupes.includes(place.textContent)) {
         place.setAttribute(
           "class",
-          "aspect-square rounded-lg bg-slate-400 text-xs font-bold text-white opacity-50 isdisable",
+          "aspect-square rounded-lg bg-slate-400 text-xs font-bold text-white opacity-50 isdisable isselected",
         );
         place.disabled = true;
       } else {
         place.setAttribute(
           "class",
-          "aspect-square rounded-lg bg-blue-600 text-xs font-bold text-white isenable",
+          "aspect-square rounded-lg bg-blue-600 text-xs font-bold text-white isenable isnotselected",
         );
+        place.disabled = false;
       }
       siege.appendChild(place);
     }
   });
-  selectplace()
-}
-function selectplace() {
   const enabledsiege = siege.querySelectorAll(".isenable");
-  enabledsiege.forEach(plc => {
-    plc.addEventListener('click', function(){
-      plc.classList.replace("bg-slate-400","bg-cine-red")
-      
-    })
-  })
+  selectplace(enabledsiege);
 }
 
 // ==================================================
@@ -248,7 +241,30 @@ function selectplace() {
 // QUESTIONS : Comment empêcher le clic sur une place occupée ?
 // TODO : écouter chaque siège disponible et actualiser son état visuel.
 // ÉCRIVEZ VOTRE CODE ICI :
+function selectplace(data) {
+  const buttonseanceactive = document.querySelector(".isactive");
+  const horaireselecte = creatfilmresevationcard().seances.find(
+    (ele) => ele.id == buttonseanceactive.getAttribute("dataseanceid"),
+  );
+  data.forEach((plc) => {
+    plc.addEventListener("click", function () {
+      
+      if (plc.classList.contains("isnotselected")) {
+        plc.classList.replace("bg-blue-600", "bg-cine-red");
+        plc.classList.replace("bg-blue-600", "bg-cine-red");
+        plc.classList.replace("isnotselected", "isselected");
+        nombreplaces++;
+        console.log(nombreplaces);
 
+      } else {
+        plc.classList.replace("bg-cine-red", "bg-blue-600");
+        plc.classList.replace("isselected","isnotselected");
+        nombreplaces--;
+        console.log(nombreplaces);
+      }
+    });
+  });
+}
 // ==================================================
 // US07 - CALCULER LE TOTAL ET METTRE À JOUR LE RÉCAPITULATIF
 // ==================================================
