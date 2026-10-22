@@ -99,15 +99,16 @@ function selectfilm(buttonselections) {
       btn.classList.replace("text-slate-700", "text-white");
       btn.classList.replace("isnotselected", "isselected");
       btn.innerText = "selectioné";
-      creatfilmresevation();
-      const reservedfilm = creatfilmresevation();
+      siege.innerHTML = "";
+      creatfilmresevationcard();
+      const reservedfilm = creatfilmresevationcard();
       affichageseance(reservedfilm);
       seanceselection();
     });
   });
 }
 
-function creatfilmresevation() {
+function creatfilmresevationcard() {
   const clickedbtn = document.querySelector(".isselected");
   const movie = films.find((Element) => Element.id == clickedbtn.id);
   document.querySelector("#film-details")?.remove();
@@ -162,11 +163,8 @@ function affichageseance(filmrsv) {
 // ÉCRIVEZ VOTRE CODE ICI :
 function seanceselection() {
   const seancebuttons = document.querySelectorAll(".seance-button");
-  const arr_btnactive = [];
 
   seancebuttons.forEach((Elementbutton) => {
-    // let selected = false;
-
     Elementbutton.addEventListener("click", function (e) {
       seancebuttons.forEach((btnelement) => {
         btnelement.classList.replace("bg-cine-red", "bg-slate-50");
@@ -177,6 +175,8 @@ function seanceselection() {
       Elementbutton.classList.replace("bg-slate-50", "bg-cine-red");
       Elementbutton.classList.replace("text-slate-700", "text-white");
       Elementbutton.classList.replace("isnotactive", "isactive");
+      affichagesiege();
+      var filmonselection = creatfilmresevationcard();
     });
   });
 }
@@ -191,6 +191,54 @@ function seanceselection() {
 // PISTE : rangees et siegesParRangee sont fournis dans data.js.
 // MODÈLE : #sieges-container contient les 30 sièges statiques et leurs classes Tailwind.
 // ÉCRIVEZ VOTRE CODE ICI :
+const columns = ["A", "B", "C", "D", "E"];
+const siege = document.getElementById("sieges-container");
+
+function affichagesiege() {
+  const buttonseanceactive = document.querySelector(".isactive");
+  const horaireselecte = creatfilmresevationcard().seances.find(
+    (ele) => ele.id == buttonseanceactive.getAttribute("dataseanceid"),
+  );
+  siege.innerHTML = "";
+
+  columns.forEach((column) => {
+    const rowdiv = document.createElement("span");
+    rowdiv.setAttribute(
+      "class",
+      "self-center text-xs font-extrabold text-slate-500",
+    );
+    rowdiv.textContent = column;
+    siege.appendChild(rowdiv);
+
+    for (let i = 1; i <= 6; i++) {
+      const place = document.createElement("button");
+      place.textContent = column + i;
+      if (horaireselecte.siegesOccupes.includes(place.textContent)) {
+        place.setAttribute(
+          "class",
+          "aspect-square rounded-lg bg-slate-400 text-xs font-bold text-white opacity-50 isdisable",
+        );
+        place.disabled = true;
+      } else {
+        place.setAttribute(
+          "class",
+          "aspect-square rounded-lg bg-blue-600 text-xs font-bold text-white isenable",
+        );
+      }
+      siege.appendChild(place);
+    }
+  });
+  selectplace()
+}
+function selectplace() {
+  const enabledsiege = siege.querySelectorAll(".isenable");
+  enabledsiege.forEach(plc => {
+    plc.addEventListener('click', function(){
+      plc.classList.replace("bg-slate-400","bg-cine-red")
+      
+    })
+  })
+}
 
 // ==================================================
 // US06 - SÉLECTIONNER ET DÉSÉLECTIONNER DES SIÈGES
