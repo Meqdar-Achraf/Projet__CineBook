@@ -89,15 +89,11 @@
             </div> -->
           </section>
 
-          <section class="rounded-2xl border border-slate-200 bg-white p-5 shadow-lg sm:p-8" aria-labelledby="seances-title">
+          <section class="rounded-2xl border border-slate-200 bg-white p-5 shadow-lg sm:p-8" id="film-seances" aria-labelledby="seances-title">
             <p class="mb-1 text-[.7rem] font-extrabold uppercase tracking-[.2em] text-cine-red">Étape 2</p><h2 id="seances-title" class="text-2xl font-black tracking-tight sm:text-3xl">Choisissez une séance</h2>
             <!-- TODO APPRENANT : générer un bouton pour chaque séance du film sélectionné. -->
 
-            <!-- <div id="seances-container" class="mt-6 flex flex-wrap gap-3">
-              <button type="button" data-seance-id="101" class="rounded-xl bg-cine-red px-5 py-3 font-bold text-white shadow-md">14:00</button>
-              <button type="button" data-seance-id="102" class="rounded-xl border border-slate-300 bg-slate-50 px-5 py-3 font-bold text-slate-700">17:30</button>
-              <button type="button" data-seance-id="103" class="rounded-xl border border-slate-300 bg-slate-50 px-5 py-3 font-bold text-slate-700">21:00</button>
-            </div> -->
+
           </section>
 
           <section class="rounded-2xl border border-slate-200 bg-white p-5 shadow-lg sm:p-8" aria-labelledby="salle-title">
@@ -108,28 +104,31 @@
             <div class="mx-auto mt-9 max-w-lg rounded-[50%] border-t-4 border-slate-500 pt-3 text-center text-[.7rem] uppercase tracking-[.35em] text-slate-500">Écran</div>
             <!-- TODO APPRENANT : créer les 30 boutons avec deux boucles. -->
             <div id="sieges-container" class="mx-auto mt-8 grid max-w-sm grid-cols-[1rem_repeat(6,minmax(1.75rem,2.6rem))] justify-center gap-1.5">
-              <span class="self-center text-xs font-extrabold text-slate-500">A</span><button class="aspect-square rounded-lg bg-slate-400 text-xs font-bold text-white opacity-50" disabled>A1</button><button class="aspect-square rounded-lg bg-slate-400 text-xs font-bold text-white opacity-50" disabled>A2</button><button class="aspect-square rounded-lg bg-blue-600 text-xs font-bold text-white">A3</button><button class="aspect-square rounded-lg bg-blue-600 text-xs font-bold text-white">A4</button><button class="aspect-square rounded-lg bg-blue-600 text-xs font-bold text-white">A5</button><button class="aspect-square rounded-lg bg-blue-600 text-xs font-bold text-white">A6</button>
+              <!-- <span class="self-center text-xs font-extrabold text-slate-500">A</span><button class="aspect-square rounded-lg bg-slate-400 text-xs font-bold text-white opacity-50" disabled>A1</button><button class="aspect-square rounded-lg bg-slate-400 text-xs font-bold text-white opacity-50" disabled>A2</button><button class="aspect-square rounded-lg bg-blue-600 text-xs font-bold text-white">A3</button><button class="aspect-square rounded-lg bg-blue-600 text-xs font-bold text-white">A4</button><button class="aspect-square rounded-lg bg-blue-600 text-xs font-bold text-white">A5</button><button class="aspect-square rounded-lg bg-blue-600 text-xs font-bold text-white">A6</button>
               <span class="self-center text-xs font-extrabold text-slate-500">B</span><button class="aspect-square rounded-lg bg-blue-600 text-xs font-bold text-white">B1</button><button class="aspect-square rounded-lg bg-blue-600 text-xs font-bold text-white">B2</button><button class="aspect-square rounded-lg bg-slate-400 text-xs font-bold text-white opacity-50" disabled>B3</button><button class="aspect-square rounded-lg bg-blue-600 text-xs font-bold text-white">B4</button><button class="aspect-square rounded-lg bg-blue-600 text-xs font-bold text-white">B5</button><button class="aspect-square rounded-lg bg-blue-600 text-xs font-bold text-white">B6</button>
               <span class="self-center text-xs font-extrabold text-slate-500">C</span><button class="aspect-square rounded-lg bg-blue-600 text-xs font-bold text-white">C1</button><button class="aspect-square rounded-lg bg-cine-red text-xs font-bold text-white shadow-md">C2</button><button class="aspect-square rounded-lg bg-cine-red text-xs font-bold text-white shadow-md">C3</button><button class="aspect-square rounded-lg bg-blue-600 text-xs font-bold text-white">C4</button><button class="aspect-square rounded-lg bg-blue-600 text-xs font-bold text-white">C5</button><button class="aspect-square rounded-lg bg-blue-600 text-xs font-bold text-white">C6</button>
               <span class="self-center text-xs font-extrabold text-slate-500">D</span><button class="aspect-square rounded-lg bg-blue-600 text-xs font-bold text-white">D1</button><button class="aspect-square rounded-lg bg-blue-600 text-xs font-bold text-white">D2</button><button class="aspect-square rounded-lg bg-blue-600 text-xs font-bold text-white">D3</button><button class="aspect-square rounded-lg bg-blue-600 text-xs font-bold text-white">D4</button><button class="aspect-square rounded-lg bg-slate-400 text-xs font-bold text-white opacity-50" disabled>D5</button><button class="aspect-square rounded-lg bg-blue-600 text-xs font-bold text-white">D6</button>
               <span class="self-center text-xs font-extrabold text-slate-500">E</span><button class="aspect-square rounded-lg bg-blue-600 text-xs font-bold text-white">E1</button><button class="aspect-square rounded-lg bg-blue-600 text-xs font-bold text-white">E2</button><button class="aspect-square rounded-lg bg-blue-600 text-xs font-bold text-white">E3</button><button class="aspect-square rounded-lg bg-blue-600 text-xs font-bold text-white">E4</button><button class="aspect-square rounded-lg bg-blue-600 text-xs font-bold text-white">E5</button><button class="aspect-square rounded-lg bg-blue-600 text-xs font-bold text-white">E6</button>
+             -->
             </div>
           </section>
         </div>
 
-        <aside class="h-fit rounded-2xl border border-slate-200 bg-white p-5 shadow-lg sm:p-8 lg:sticky lg:top-24" aria-labelledby="recap-title">
+        <aside id="Recapitulatif" class="h-fit rounded-2xl border border-slate-200 bg-white p-5 shadow-lg sm:p-8 lg:sticky lg:top-24" aria-labelledby="recap-title">
           <p class="mb-1 text-[.7rem] font-extrabold uppercase tracking-[.2em] text-cine-red">Votre commande</p><h2 id="recap-title" class="text-2xl font-black tracking-tight">Récapitulatif</h2>
           <!-- TODO APPRENANT : actualiser ces valeurs après chaque choix. -->
           <dl class="mt-7 space-y-4 text-sm">
-            <div class="flex justify-between gap-4"><dt class="text-slate-500">Film</dt><dd id="recap-film" class="font-bold">Mission Galaxie</dd></div>
-            <div class="flex justify-between gap-4"><dt class="text-slate-500">Séance</dt><dd id="recap-seance" class="font-bold">14:00</dd></div>
-            <div class="flex justify-between gap-4"><dt class="text-slate-500">Nombre de sièges</dt><dd id="nombre-sieges" class="font-bold">2</dd></div>
-            <div class="flex justify-between gap-4"><dt class="text-slate-500">Sièges</dt><dd id="sieges-selectionnes" class="font-bold">C2, C3</dd></div>
+            <div class="flex justify-between gap-4"><dt class="text-slate-500">Film</dt><dd id="recap-film" class="font-bold"></dd></div>
+            <div class="flex justify-between gap-4"><dt class="text-slate-500">Séance</dt><dd id="recap-seance" class="font-bold"></dd></div>
+            <div class="flex justify-between gap-4"><dt class="text-slate-500">Nombre de sièges</dt><dd id="nombre-sieges" class="font-bold"></dd></div>
+            <div class="flex justify-between gap-4"><dt class="text-slate-500">Sièges</dt><dd id="sieges-selectionnes" class="font-bold"></dd></div>
+          
           </dl>
-          <div class="my-6 h-px bg-slate-200"></div>
-          <div class="flex items-baseline justify-between"><span class="font-semibold">Total</span><span class="text-3xl font-black"><span id="prix-total">110</span> <small class="text-sm text-slate-500">DH</small></span></div>
+          <div class="my-6 h-px bg-slate-200" id=""></div>
+          <div class="flex items-baseline justify-between" id="Total_Recapitulatif"><span class="font-semibold">Total</span><span class="text-3xl font-black"><span id="prix-total"></span> <small class="text-sm text-slate-500">DH</small></span></div>
           <button id="confirmer-reservation" type="button" class="mt-7 w-full rounded-xl bg-cine-red px-5 py-3.5 font-bold text-white transition hover:bg-red-500">Confirmer la réservation</button>
-          <div id="reservation-message" class="mt-4 rounded-xl bg-emerald-50 p-3 text-sm font-medium text-emerald-700" role="status" aria-live="polite">Exemple : votre réservation est prête.</div>
+          <!-- <div id="reservation-message" class="mt-4 rounded-xl bg-emerald-50 p-3 text-sm font-medium text-emerald-700" role="status" aria-live="polite">Exemple : votre réservation est prête.</div> -->
+        
         </aside>
       </div>
     </section>
