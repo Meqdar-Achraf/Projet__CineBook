@@ -241,30 +241,27 @@ function affichagesiege() {
 // QUESTIONS : Comment empêcher le clic sur une place occupée ?
 // TODO : écouter chaque siège disponible et actualiser son état visuel.
 // ÉCRIVEZ VOTRE CODE ICI :
+const selectedsiege = []
 function selectplace(data) {
-  const buttonseanceactive = document.querySelector(".isactive");
-  const horaireselecte = creatfilmresevationcard().seances.find(
-    (ele) => ele.id == buttonseanceactive.getAttribute("dataseanceid"),
-  );
   data.forEach((plc) => {
     plc.addEventListener("click", function () {
-      
       if (plc.classList.contains("isnotselected")) {
         plc.classList.replace("bg-blue-600", "bg-cine-red");
         plc.classList.replace("bg-blue-600", "bg-cine-red");
         plc.classList.replace("isnotselected", "isselected");
+        selectedsiege.push(plc.textContent)
         nombreplaces++;
-        console.log(nombreplaces);
-
       } else {
         plc.classList.replace("bg-cine-red", "bg-blue-600");
-        plc.classList.replace("isselected","isnotselected");
+        plc.classList.replace("isselected", "isnotselected");
         nombreplaces--;
         console.log(nombreplaces);
       }
+      recap_ticket();
     });
   });
 }
+
 // ==================================================
 // US07 - CALCULER LE TOTAL ET METTRE À JOUR LE RÉCAPITULATIF
 // ==================================================
@@ -274,6 +271,17 @@ function selectplace(data) {
 // TODO : écrire une fonction appelée après chaque changement de sélection.
 // MODÈLE : le récapitulatif HTML affiche des exemples de valeurs déjà remplies.
 // ÉCRIVEZ VOTRE CODE ICI :
+function recap_ticket() {
+  const timeseance = film_seances.getElementsByClassName("isactive");
+  let total = creatfilmresevationcard().prix * nombreplaces;
+  selectedsiege.join(", ")
+  document.getElementById("recap-film").textContent = creatfilmresevationcard().titre;
+  document.getElementById("recap-seance").textContent = timeseance[0].textContent;
+  document.getElementById("sieges-selectionnes").textContent = selectedsiege;
+  document.getElementById("nombre-sieges").textContent = nombreplaces;
+  document.getElementById("prix-total").textContent = total;
+}
+// const recap_filmsiege = `<div class="flex justify-between gap-4"><dt class="text-slate-500">Sièges</dt><dd id="sieges-selectionnes" class="font-bold">C2, C3</dd></div>`
 
 // ==================================================
 // US08 - CONFIRMER LA RÉSERVATION
