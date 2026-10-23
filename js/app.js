@@ -41,7 +41,7 @@ const film__container = document.getElementById("films-container");
 // PISTE : ajoutez l'identifiant du film dans un attribut data-film-id du bouton.
 // MODÈLE : observez l'élément <article data-film-id="1"> dans index.html.
 // ÉCRIVEZ VOTRE CODE ICI :
-
+let selectedsiege = [];
 let duration = "";
 
 function time(movie) {
@@ -104,6 +104,7 @@ function selectfilm(buttonselections) {
       const reservedfilm = creatfilmresevationcard();
       affichageseance(reservedfilm);
       seanceselection();
+      selectedsiege = [];
     });
   });
 }
@@ -175,6 +176,7 @@ function seanceselection() {
       Elementbutton.classList.replace("bg-slate-50", "bg-cine-red");
       Elementbutton.classList.replace("text-slate-700", "text-white");
       Elementbutton.classList.replace("isnotactive", "isactive");
+      selectedsiege = [];
       affichagesiege();
       var filmonselection = creatfilmresevationcard();
     });
@@ -241,7 +243,7 @@ function affichagesiege() {
 // QUESTIONS : Comment empêcher le clic sur une place occupée ?
 // TODO : écouter chaque siège disponible et actualiser son état visuel.
 // ÉCRIVEZ VOTRE CODE ICI :
-const selectedsiege = []
+
 function selectplace(data) {
   data.forEach((plc) => {
     plc.addEventListener("click", function () {
@@ -249,13 +251,16 @@ function selectplace(data) {
         plc.classList.replace("bg-blue-600", "bg-cine-red");
         plc.classList.replace("bg-blue-600", "bg-cine-red");
         plc.classList.replace("isnotselected", "isselected");
-        selectedsiege.push(plc.textContent)
+        selectedsiege.push(plc.textContent);
         nombreplaces++;
       } else {
         plc.classList.replace("bg-cine-red", "bg-blue-600");
         plc.classList.replace("isselected", "isnotselected");
         nombreplaces--;
-        console.log(nombreplaces);
+        selectedsiege.splice(
+          selectedsiege.findIndex((ele) => ele == plc.textContent),
+          1,
+        );
       }
       recap_ticket();
     });
@@ -271,17 +276,25 @@ function selectplace(data) {
 // TODO : écrire une fonction appelée après chaque changement de sélection.
 // MODÈLE : le récapitulatif HTML affiche des exemples de valeurs déjà remplies.
 // ÉCRIVEZ VOTRE CODE ICI :
+const recap_film = document.getElementById("recap-film");
+const recap_seance = document.getElementById("recap-seance");
+const place_selecte = document.getElementById("sieges-selectionnes");
+const nbtsiege = document.getElementById("nombre-sieges");
+const timeseance = film_seances.getElementsByClassName("isactive");
+
 function recap_ticket() {
   const timeseance = film_seances.getElementsByClassName("isactive");
-  let total = creatfilmresevationcard().prix * nombreplaces;
-  selectedsiege.join(", ")
-  document.getElementById("recap-film").textContent = creatfilmresevationcard().titre;
-  document.getElementById("recap-seance").textContent = timeseance[0].textContent;
-  document.getElementById("sieges-selectionnes").textContent = selectedsiege;
-  document.getElementById("nombre-sieges").textContent = nombreplaces;
-  document.getElementById("prix-total").textContent = total;
+  let total = creatfilmresevationcard().prix * selectedsiege.length;
+  console.log(selectedsiege.length);
+  console.log(selectedsiege);
+
+  recap_film.innerText = creatfilmresevationcard().titre;
+  recap_seance.innerText = timeseance[0].textContent;
+  place_selecte.innerText = selectedsiege.join(", ");
+  nbtsiege.innerText = selectedsiege.length;
+  document.getElementById("prix-total").innerText = total;
+  confirmationreservation();
 }
-// const recap_filmsiege = `<div class="flex justify-between gap-4"><dt class="text-slate-500">Sièges</dt><dd id="sieges-selectionnes" class="font-bold">C2, C3</dd></div>`
 
 // ==================================================
 // US08 - CONFIRMER LA RÉSERVATION
@@ -292,6 +305,33 @@ function recap_ticket() {
 // QUESTIONS : Quelles conditions rendent une réservation valide ?
 // TODO : écouter #confirmer-reservation et construire un message clair.
 // ÉCRIVEZ VOTRE CODE ICI :
+
+const confirmation_button = document.getElementById("confirmer-reservation");
+function confirmationreservation() {
+  confirmation_button.addEventListener("click", function () {
+    const toast = document.createElement("div");
+    toast.setAttribute(
+      "class",
+      "mt-4 rounded-xl bg-emerald-50 p-3 text-sm font-medium text-emerald-700",
+    );
+    toast.setAttribute("id", "reservation-message");
+    toast.setAttribute("role", "status");
+    toast.setAttribute("aria-live", "polite");
+    toast.innerText = "votre réservation est prête - CineBook";
+    document.getElementById("reservation-message")?.remove();
+    if (
+      recap_film.textContent != creatfilmresevationcard().titre ||
+      recap_seance.textContent != timeseance[0].textContent ||
+      place_selecte.textContent != selectedsiege.join(", ")
+    ) {
+      toast.classList.replace("bg-emerald-50", "bg-cine-red/30");
+      toast.classList.replace("text-emerald-700", "text-white")
+      toast.innerText = "Erreur de réservation - CineBook";
+    }
+    document.getElementById("Recapitulatif").appendChild(toast);
+    setTimeout((()=> document.getElementById('reservation-message').remove()), 5000)
+  });
+}
 
 // PREMIER TEST CONSEILLÉ :
 // console.log(films);
