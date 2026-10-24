@@ -24,30 +24,54 @@ Le projet contient une maquette HTML complète et des données de démonstration
 
 ```text
 .
-├── index.html          Interface et conteneurs à manipuler
-├── js/data.js          Films, séances et sièges occupés
-├── js/app.js           Parcours pédagogique et zones TODO
-└── assets/images/      Affiches locales des films
+├── index.html              # Structure principale de l'application
+├── js/
+│   ├── data.js             # Données des films et séances
+│   └── app.js              # Logique pédagogique / TODO à compléter
+├── assets/
+│   └── images/             # Affiches des films
+├── .gitignore
+├── README.md
+└── package.json            # Non présent dans ce dépôt
 ```
 
-`data.js` doit rester chargé avant `app.js` dans la page : ainsi, le tableau `films` est disponible quand votre code démarre.
+## Fonctionnement
 
-## Ordre de travail conseillé
+L'application est pensée comme un support d'apprentissage :
 
-1. Explorez l’interface HTML et repérez les identifiants.
-2. Examinez le tableau `films` avec `console.log(films)`.
-3. Sélectionnez les conteneurs HTML utiles.
-4. Développez l’affichage des cartes de films.
-5. Ajoutez les interactions dans l’ordre des sections de `app.js`.
-6. Testez chaque fonctionnalité avant de passer à la suivante.
+- `index.html` contient les conteneurs HTML nécessaires à l'interface.
+- `js/data.js` fournit les informations sur les films, les séances et les sièges occupés.
+- `js/app.js` est le fichier principal où l'étudiant ajoute la logique métier.
+- Les éléments visuels sont déjà préconçus pour servir de modèle.
 
-## Conseils
+## Démarrage rapide
 
-- Lisez entièrement les commentaires d’une section avant de coder.
-- Utilisez `console.log()` pour vérifier une valeur ou comprendre un objet.
-- Consultez la console dès qu’un comportement ne fonctionne pas.
-- Faites de petites modifications, puis testez-les immédiatement.
-- Recherchez une méthode JavaScript dans la documentation quand son rôle n’est pas clair.
-- Évitez de copier une solution que vous ne sauriez pas expliquer.
+1. Clonez le dépôt :
 
-Actualiser la page réinitialise naturellement les choix : aucune sauvegarde permanente n’est attendue dans ce sprint.
+```bash
+git clone https://github.com/Meqdar-Achraf/Projet__CineBook.git
+```
+
+2. Ouvrez le dossier du projet.
+
+3. Lancez le fichier `index.html` dans un navigateur.
+
+4. Pour un meilleur confort de développement, utilisez un serveur local comme Live Server dans VS Code.
+
+## Objectifs pédagogiques
+
+Ce dépôt est idéal pour pratiquer :
+
+- sélection et parcours d'éléments DOM
+- ajout dynamique de contenu HTML
+- gestion des événements click
+- travail avec des tableaux d'objets
+- manipulation de classes CSS
+- mise à jour de l'interface en fonction des sélections utilisateur
+
+## Fichiers importants
+
+- `index.html` : page principale du site
+- `js/data.js` : source des données films/séances
+- `js/app.js` : logique à implémenter et à compléter
+- `assets/images/` : visuels de la plateforme
